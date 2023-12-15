@@ -1,0 +1,130 @@
+--- Creating a monthly percentage change on sql workbench ----
+
+
+SELECT 
+    Year, 
+    Month,
+    Gold,
+    Silver,
+    Platinum,
+    Palladium,
+    ROUND(((Gold - LAG(Gold) OVER (ORDER BY Year, Month)) / LAG(Gold) OVER (ORDER BY Year, Month)) * 100, 2) AS Gold_Percentage_Change,
+    ROUND(((Silver - LAG(Silver) OVER (ORDER BY Year, Month)) / LAG(Silver) OVER (ORDER BY Year, Month)) * 100, 2) AS Silver_Percentage_Change,
+    ROUND(((Platinum - LAG(Platinum) OVER (ORDER BY Year, Month)) / LAG(Platinum) OVER (ORDER BY Year, Month)) * 100, 2) AS Platinum_Percentage_Change,
+    ROUND(((Palladium - LAG(Palladium) OVER (ORDER BY Year, Month)) / LAG(Palladium) OVER (ORDER BY Year, Month)) * 100, 2) AS Palladium_Percentage_Change
+FROM metals_with_inflation_interest_GDP;
+
+
+
+
+
+WITH PercentageChanges AS (
+    SELECT 
+        Year, 
+        Month,
+        Gold,
+        Silver,
+        Platinum,
+        Palladium,
+        ROUND(((Gold - LAG(Gold) OVER (ORDER BY Year, Month)) / LAG(Gold) OVER (ORDER BY Year, Month)) * 100, 2) AS Gold_Percentage_Change,
+        ROUND(((Silver - LAG(Silver) OVER (ORDER BY Year, Month)) / LAG(Silver) OVER (ORDER BY Year, Month)) * 100, 2) AS Silver_Percentage_Change,
+        ROUND(((Platinum - LAG(Platinum) OVER (ORDER BY Year, Month)) / LAG(Platinum) OVER (ORDER BY Year, Month)) * 100, 2) AS Platinum_Percentage_Change,
+        ROUND(((Palladium - LAG(Palladium) OVER (ORDER BY Year, Month)) / LAG(Palladium) OVER (ORDER BY Year, Month)) * 100, 2) AS Palladium_Percentage_Change
+    FROM metals_with_inflation_interest_GDP
+)
+
+SELECT 
+    Year, 
+    Month,
+    Gold,
+    Silver,
+    Platinum,
+    Palladium,
+    COALESCE(
+        CASE 
+            WHEN ROW_NUMBER() OVER (ORDER BY Year, Month) = 1 THEN 
+                AVG(Gold_Percentage_Change) OVER ()
+            ELSE Gold_Percentage_Change
+        END,
+        0
+    ) AS Gold_Percentage_Change,
+    COALESCE(
+        CASE 
+            WHEN ROW_NUMBER() OVER (ORDER BY Year, Month) = 1 THEN 
+                AVG(Silver_Percentage_Change) OVER ()
+            ELSE Silver_Percentage_Change
+        END,
+        0
+    ) AS Silver_Percentage_Change,
+    COALESCE(
+        CASE 
+            WHEN ROW_NUMBER() OVER (ORDER BY Year, Month) = 1 THEN 
+                AVG(Platinum_Percentage_Change) OVER ()
+            ELSE Platinum_Percentage_Change
+        END,
+        0
+    ) AS Platinum_Percentage_Change,
+    COALESCE(
+        CASE 
+            WHEN ROW_NUMBER() OVER (ORDER BY Year, Month) = 1 THEN 
+                AVG(Palladium_Percentage_Change) OVER ()
+            ELSE Palladium_Percentage_Change
+        END,
+        0
+    ) AS Palladium_Percentage_Change
+FROM PercentageChanges;
+
+
+----Calculating the average inflation ---
+
+SELECT AVG(inflation) AS average_inflation
+FROM metals_with_inflation;
+
+----Selecting all the values where inflation is higher than the average inflation ---
+SELECT *
+FROM inflation_years
+WHERE inflation > (SELECT AVG(inflation) FROM inflation_years);
+
+----Selecting all the values where inflation is lower than the average inflation ---
+SELECT *
+FROM inflation_years
+WHERE inflation < (SELECT AVG(inflation) FROM inflation_years);
+
+---Calculating the volatility for the metals 1990-2023---
+
+SELECT 
+    Year,
+    Month,
+    Date,
+    Gold,
+    Silver,
+    Platinum,
+    Palladium,
+    (Gold / LAG(Gold, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Gold_Return,
+    (Silver / LAG(Silver, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Silver_Return,
+    (Platinum / LAG(Platinum, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Platinum_Return,
+    (Palladium / LAG(Palladium, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Palladium_Return
+FROM precious_metals;
+
+
+SELECT 
+    STDDEV_POP(Gold_Return) AS Gold_Return_StdDev,
+    STDDEV_POP(Silver_Return) AS Silver_Return_StdDev,
+    STDDEV_POP(Platinum_Return) AS Platinum_Return_StdDev,
+    STDDEV_POP(Palladium_Return) AS Palladium_Return_StdDev
+FROM (
+    SELECT 
+        (Gold / LAG(Gold, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Gold_Return,
+        (Silver / LAG(Silver, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Silver_Return,
+        (Platinum / LAG(Platinum, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Platinum_Return,
+        (Palladium / LAG(Palladium, 1) OVER (ORDER BY Year, Month, Date)) - 1 AS Palladium_Return
+    FROM precious_metals
+) subquery
+WHERE Gold_Return IS NOT NULL
+    AND Silver_Return IS NOT NULL
+    AND Platinum_Return IS NOT NULL
+    AND Palladium_Return IS NOT NULL;
+
+
+---note that the precious_metals table uploaded on sql workbench had rounded values which made the values 
+not match the excel volatility calculations from 1990-2023, so I rounded these ones in excel
