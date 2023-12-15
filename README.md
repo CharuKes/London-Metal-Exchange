@@ -39,23 +39,6 @@ The project includes a returns predictor application that employs a machine lear
 
 Utilizing historical data, the economic forecast component predicts potential outcomes for GDP and inflation over the next 10 years. While interest rates are influenced by the Bank of England's reactions to economic performance, predictions for these are included as well.
 
-## Code and Tools
-
-### Python Code
-
-The Python code for this project can be found in the [Python directory](<https://github.com/remiyeku/Maverick-gold/tree/main/python_code>).
-
-### SQL Scripts
-
-SQL scripts used in this project are available in the [SQL directory](<https://github.com/remiyeku/Maverick-gold/tree/main/SQL>).
-
-### Excel Files
-
-Excel files containing relevant data and analysis can be accessed in the [Excel directory](<https://github.com/remiyeku/Maverick-gold/tree/main/Excel>).
-
-### Power BI
-
-Power BI reports and dashboards are located in the [Power BI directory](<https://github.com/remiyeku/Maverick-gold/tree/main/Power%20BI>).
 
 ## Essential Links
 
