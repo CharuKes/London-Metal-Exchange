@@ -59,6 +59,5 @@ Power BI reports and dashboards are located in the [Power BI directory](<https:/
 
 ## Essential Links
 
-- [GitHub Repository](<https://github.com/remiyeku/Maverick-gold>)
 - [Jira Sprint Board](<https://albanybeckworldwide.atlassian.net/jira/software/projects/TM/boards/10>)
 - [Confluence Report](<https://albanybeckworldwide.atlassian.net/wiki/external/NmQxMTcxMmQ3Y2UxNDlkMGEzYTk1NTI5Mzk0OTk4NTc>)
