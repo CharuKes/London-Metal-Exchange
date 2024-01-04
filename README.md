@@ -1,4 +1,4 @@
-# Precious Metal Prices and Economic Points of Interest
+# Precious Metal Prices and Economic Points of Interest 
 
 ## Overview
 
