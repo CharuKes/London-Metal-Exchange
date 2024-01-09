@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project focuses on analyzing three key economic metrics in the UK: inflation, GDP, and interest rates. Additionally, it delves into the dynamics of four precious metals - gold, silver, platinum, and palladium. The goal is to provide insights into economic performance and offer investment advice based on short-term and long-term criteria.
+This project focuses on analyzing three key economic metrics in the UK: inflation, GDP, and interest rates. Additionally, it delves into the dynamics of four precious metals - gold, silver, platinum, and palladium. The goal is to provide insights into economic performance and offer investment advice based on short-term and long-term criteria. 
 
 ## Precious Metals
 
