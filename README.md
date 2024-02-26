@@ -6,8 +6,8 @@ This project focuses on analyzing three key economic metrics in the UK: inflatio
 
 ## Precious Metals
 
-The chosen precious metals are gold, silver, platinum, and palladium. These metals are selected based on rarity, manufacturing process, and historical significance. Gold, in particular, is recognized as an inflation hedge and a safe haven during economic difficulties.
-
+The chosen precious metals are gold, silver, platinum, and palladium. These metals are selected based on rarity, manufacturing process, and historical significance. Gold, in particular, is recognized as an inflation hedge and a safe haven during economic difficulties. 
+ 
 ## Economic Metrics
 
 We examine the following economic metrics:
